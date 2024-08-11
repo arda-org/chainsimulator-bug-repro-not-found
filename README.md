@@ -1,81 +1,20 @@
-# 'blank' contract
-
-An empty contract that comes fully set up with tests and blockchain interactions.
-
-To create a copy of the 'blank' contract on your computer:
+We send 200 transactions, generate blocks until they are completed, and then try to get the transaction, but then we get the error:
 
 ```
-xsuite new --dir my-contract
-cd my-contract
+Error: Unsuccessful proxy request. Response: {
+  "data": null,
+  "error": "transaction not found",
+  "code": "internal_issue"
+}
 ```
 
-Note that `xsuite` and Rust must be installed on your computer. To install, run:
+File `fsproxy-logs/fsproxy-2024-08-11-15-56-52.log` contains all logs.
+
+# How to reproduce
 
 ```
-npm install -g xsuite
-xsuite install-rust
-```
-
-## Build contract
-
-Write the contract logic in `src/lib.rs`. Then build the contract with:
-
-```
-npm run build
-```
-
-## Test contract
-
-Write the tests in `tests/contract.test.ts`. Then test the contract with:
-
-```
+npm install
 npm run test
 ```
 
-## Interact with contract
-
-Write the interactions in `interact/index.ts`. Then interact with:
-
-- On devnet:
-
-  ```
-  npm run interact:devnet [command]
-  ```
-
-- On testnet:
-
-  ```
-  npm run interact:testnet [command]
-  ```
-
-- On mainnet:
-
-  ```
-  npm run interact:mainnet [command]
-  ```
-
-To list all available commands:
-
-```
-npm run interact:devnet --help
-```
-
-For example, if you want to deploy the contract on devnet:
-
-```
-npm run interact:devnet deploy
-```
-
-## Wallet & Funding
-
-To create a new keystore wallet at path `wallet.json`:
-
-```
-xsuite new-wallet --wallet wallet.json
-```
-
-To fund this wallet with 30 xEGLD:
-
-```
-xsuite request-xegld --wallet wallet.json
-```
+**NOTE:** The test might sometimes pass. Run it until it fails.
