@@ -1,4 +1,4 @@
-We send 200 transactions, generate blocks until they are completed, and then try to get the transaction, but then we get the error:
+We send 100 transfers, generate blocks until they are completed, and then try to get the transaction, but then we get the error:
 
 ```
 Error: Unsuccessful proxy request. Response: {
