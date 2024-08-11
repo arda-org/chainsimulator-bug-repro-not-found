@@ -1,27 +1,27 @@
-import { test, beforeEach, afterEach } from "vitest";
-import { assertAccount, LSWorld, LSWallet, LSContract } from "xsuite";
-
-let world: LSWorld;
-let deployer: LSWallet;
-let contract: LSContract;
-
-beforeEach(async () => {
-  world = await LSWorld.start();
-  deployer = await world.createWallet();
-  ({ contract } = await deployer.deployContract({
-    code: "file:output/contract.wasm",
-    codeMetadata: [],
-    gasLimit: 10_000_000,
-  }));
-});
-
-afterEach(async () => {
-  world.terminate();
-});
+import { test } from "vitest";
+import { FSWorld, e } from "xsuite";
 
 test("Test", async () => {
-  assertAccount(await contract.getAccount(), {
-    balance: 0n,
-    kvs: [],
+  using world = await FSWorld.start();
+
+  const wallet = await world.createWallet({
+    address: { shard: 0 },
+    balance: 10n ** 18n,
   });
+  const caller = await world.createContract({
+    address: { shard: 0 },
+    code: "file:output/contract.wasm",
+    codeMetadata: [],
+  });
+
+  await world.callContracts(
+    Array.from({ length: 200 }, () =>
+      ({
+        sender: wallet,
+        callee: caller,
+        funcName: "compute",
+        gasLimit: 100_000_000,
+      }),
+    ),
+  );
 });
