@@ -1,3 +1,5 @@
+FIXED ✅
+
 We send 100 transfers, generate blocks until they are completed, and then try to get the transaction, but then we get the error:
 
 ```
